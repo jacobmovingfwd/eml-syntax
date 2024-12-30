@@ -13,11 +13,14 @@ contexts:
   main:
 
     #pull in HTML for the HTML body of the message
-    - match: (?i)<(!DOCTYPE\s*)?html
-      scope: meta.tag.html
+    - match: (?=(?i:<(!DOCTYPE\s*)?html))
       push:
-        - meta_include_prototype: false
-        - match: (?i)</html>
+        - match: (</)(html)\s*(>)
+          scope: meta.tag.structure.any.html
+          captures:
+            1: punctuation.definition.tag.begin.html
+            2: entity.name.tag.structure.any.html
+            3: punctuation.definition.tag.end.html
           pop: true
         - include: Packages/HTML/HTML.sublime-syntax
 
