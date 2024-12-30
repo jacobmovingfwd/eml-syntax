@@ -14,10 +14,12 @@ contexts:
 
     #pull in HTML for the HTML body of the message
     - match: (?i)<(!DOCTYPE\s*)?html
-      push: Packages/HTML/HTML.sublime-syntax
-      with_prototype:
-        - match: (?=</html>)
+      scope: meta.tag.html
+      push:
+        - meta_include_prototype: false
+        - match: (?i)</html>
           pop: true
+        - include: Packages/HTML/HTML.sublime-syntax
 
     # Email Addresses
     - match: '(\S|<)"[a-zA-Z0-9. \+\_\-=]+"\s*&lt;[a-zA-Z0-9.\-]+\@[a-zA-Z0-9.\-]+&gt;(\S|>)'
