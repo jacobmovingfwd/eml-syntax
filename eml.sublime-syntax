@@ -13,11 +13,16 @@ contexts:
   main:
 
     #pull in HTML for the HTML body of the message
-    - match: (?i)<(!DOCTYPE\s*)?html
-      push: Packages/HTML/HTML.sublime-syntax
-      with_prototype:
-        - match: (?=</html>)
+    - match: (?=(?i:<(!DOCTYPE\s*)?html))
+      push:
+        - match: (</)(html)\s*(>)
+          scope: meta.tag.structure.any.html
+          captures:
+            1: punctuation.definition.tag.begin.html
+            2: entity.name.tag.structure.any.html
+            3: punctuation.definition.tag.end.html
           pop: true
+        - include: Packages/HTML/HTML.sublime-syntax
 
     # Email Addresses
     - match: '(\S|<)"[a-zA-Z0-9. \+\_\-=]+"\s*&lt;[a-zA-Z0-9.\-]+\@[a-zA-Z0-9.\-]+&gt;(\S|>)'
